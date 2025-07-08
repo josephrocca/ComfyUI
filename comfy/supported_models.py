@@ -1138,13 +1138,16 @@ class Chroma(supported_models_base.BASE):
         "multiplier": 1.0,
     }
 
-    # latent_format = comfy.latent_formats.Flux
-    latent_format = latent_formats.Chroma
+    latent_format = comfy.latent_formats.Flux
 
     memory_usage_factor = 3.2
 
     supported_inference_dtypes = [torch.bfloat16, torch.float16, torch.float32]
-
+    
+    def __init__(self, unet_config):
+        if unet_config['patch_size'] == 1:
+            self.latent_format = latent_formats.Chroma
+        super().__init__(unet_config)
 
     def get_model(self, state_dict, prefix="", device=None):
         out = model_base.Chroma(self, device=device)
