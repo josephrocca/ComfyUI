@@ -455,6 +455,29 @@ class VAE:
                 self.working_dtypes = [torch.bfloat16, torch.float16, torch.float32]
                 self.disable_offload = True
                 self.extra_1d_channel = 16
+            elif "encoder.res_blocks.0.0.rms_norm.alpha" in sd: #Chroma VAE
+                from comfy.ldm.chroma.vae import AutoEncoder as ChromaAutoEncoder
+                
+                ae_args = {
+                    "pixel_channels": 3,
+                    "bottleneck_channels": 64,
+                    "down_layer_blocks": [[32, 10], [64, 15], [128, 20], [256, 20], [512, 20], [512, 20]],
+                    "up_layer_blocks": [[512, 20], [512, 20], [256, 20], [128, 20], [64, 15], [32, 10]], 
+                    "act_fn": "silu",
+                }
+                
+                self.first_stage_model = ChromaAutoEncoder(**ae_args)
+                self.latent_channels = 64
+                self.latent_dim = 2
+                self.downscale_ratio = 32
+                self.upscale_ratio = 32
+                
+                self.memory_used_encode = lambda shape, dtype: (1000 * shape[2] * shape[3]) * model_management.dtype_size(dtype)
+                self.memory_used_decode = lambda shape, dtype: (1500 * shape[2] * shape[3] * 64) * model_management.dtype_size(dtype)
+                
+                self.process_input = lambda image: image * 2.0 - 1.0
+                self.process_output = lambda image: torch.clamp((image + 1.0) / 2.0, min=0.0, max=1.0)
+                self.working_dtypes = [torch.bfloat16, torch.float16, torch.float32]
             else:
                 logging.warning("WARNING: No VAE weights detected, VAE not initalized.")
                 self.first_stage_model = None
