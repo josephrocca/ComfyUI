@@ -2254,6 +2254,7 @@ def init_builtin_extra_nodes():
         "nodes_webcam.py",
         "nodes_audio.py",
         "nodes_sd3.py",
+        "nodes_chroma.py",
         "nodes_gits.py",
         "nodes_controlnet.py",
         "nodes_hunyuan.py",
