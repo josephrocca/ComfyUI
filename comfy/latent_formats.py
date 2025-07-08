@@ -470,3 +470,14 @@ class Hunyuan3Dv2mini(LatentFormat):
 class ACEAudio(LatentFormat):
     latent_channels = 8
     latent_dimensions = 2
+
+class Chroma(LatentFormat):
+    latent_channels = 64
+    latent_dimensions = 2
+    
+    def __init__(self):
+        self.scale_factor = 1.0
+        self.shift_factor = 0.0
+        self.latent_rgb_factors = None
+        self.latent_rgb_factors_bias = None
+        self.taesd_decoder_name = None
