@@ -1138,7 +1138,8 @@ class Chroma(supported_models_base.BASE):
         "multiplier": 1.0,
     }
 
-    latent_format = comfy.latent_formats.Flux
+    # latent_format = comfy.latent_formats.Flux
+    latent_format = latent_formats.Chroma
 
     memory_usage_factor = 3.2
 
