@@ -179,8 +179,8 @@ def detect_unet_config(state_dict, key_prefix, metadata=None):
         if '{}distilled_guidance_layer.0.norms.0.scale'.format(key_prefix) in state_dict_keys or '{}distilled_guidance_layer.norms.0.scale'.format(key_prefix) in state_dict_keys: #Chroma
             dit_config["image_model"] = "chroma"
             if '{}meta.patch_size'.format(key_prefix) in state_dict_keys and state_dict['{}meta.patch_size'.format(key_prefix)] == 1:
-                dit_config["patch_size"] = 1
-            dit_config["patch_size"] = patch_size
+                patch_size = 1
+                dit_config["patch_size"] = patch_size
             dit_config["in_channels"] = 64
             dit_config["out_channels"] = 64
             dit_config["in_dim"] = 64
