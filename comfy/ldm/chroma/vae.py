@@ -334,12 +334,12 @@ class AutoEncoder(nn.Module):
         )
 
     def encode(self, x, checkpoint=True, skip_last_downscale=False):
-        # For ComfyUI compatibility, always use checkpoint=True and skip_last_downscale=False
-        return self.encoder(x, checkpoint=True, skip_last_downscale=False)
+        # skip_last_downscale = True # uncomment to use 12x compression mode, instead of the default 48x
+        return self.encoder(x, checkpoint=True, skip_last_downscale=skip_last_downscale)
 
     def decode(self, x, checkpoint=True, skip_second_upscale=False):
-        # For ComfyUI compatibility, always use checkpoint=True and skip_second_upscale=False
-        return self.decoder(x, checkpoint=True, skip_second_upscale=False)
+        # skip_last_downscale = True # uncomment to use 12x compression mode, instead of the default 48x
+        return self.decoder(x, checkpoint=True, skip_second_upscale=skip_second_upscale)
 
     def forward(self, x, checkpoint=True):
         x = self.encode(x, checkpoint)
