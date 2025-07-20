@@ -18,7 +18,7 @@ class EmptyChromaLatentImage:
     CATEGORY = "latent/sd3"
 
     def generate(self, width, height, batch_size=1):
-        latent = torch.zeros([batch_size, 16, height // 32, width // 32], device=self.device)
+        latent = torch.zeros([batch_size, 64, height // 32, width // 32], device=self.device)
         return ({"samples":latent}, )
 
 
